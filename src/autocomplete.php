@@ -1,7 +1,4 @@
 <?php
-include __DIR__ . "/connectors/Wikispecies.php";
-use \mwAutocompleteExternal\connectors\Wikispecies as Wikispecies;
-
 // path to configuration .ini file
 $configPath =  __DIR__ . "/config.ini";
 
@@ -12,10 +9,24 @@ try {
 	$ini = parse_ini_file( $configPath );
 	require_once $ini[ 'snoopyPath' ];
 	$snoopy = new Snoopy();
-
-	// Instantiate an autocompleter class
-	$auto = new Wikispecies( $snoopy );
-
+	
+	// get the requested reference data source 
+	// and instantiate the corresponding autocomplete class
+	$source = htmlspecialchars($_GET["source"]);
+	if ( $source == null ) throw new Exception( 'No data source given.' );
+	switch( $source ) {
+		case 'wikispecies' :
+			include __DIR__ . "/connectors/Wikispecies.php";
+			$auto = new \mwAutocompleteExternal\connectors\Wikispecies( $snoopy );
+			
+		case 'institutesDE' :
+			include __DIR__ . "/connectors/InstitutesDE.php";
+			$auto = new \mwAutocompleteExternal\connectors\InstitutesDE( $snoopy );
+			
+		default:
+			throw new Exception( 'Unknown data source.' );				
+	}
+	
 	// get the autocomplete data (as JSON)
 	$query = htmlspecialchars($_GET["search"]);
 	$resp = $auto->search( $query );
