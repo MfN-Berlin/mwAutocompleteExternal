@@ -24,12 +24,8 @@ For example, to retrieve scientific names from Wikispecies into a text input fie
 Done. A list of matching scientific names should appear when you start tiping in the input field.
 
 ## Usage: Wikipedia category
-<<<<<<< HEAD
 For example, to retrieve the a list of page titles from a category from Wikispedia into a text input field:
 
-=======
-For example, to retrieve the a list of page titles from a categoryfrom Wikispedia into a text input field:
->>>>>>> origin/master
 1. Add the "values from url" parameter to your input field:
 
  {{{field|Taxon|input type=text with autocomplete|values from url=wikipedia}}}
