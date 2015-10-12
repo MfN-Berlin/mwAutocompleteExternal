@@ -15,11 +15,18 @@ try {
         $source = htmlspecialchars($_GET["source"]);
         if ( $source == null ) throw new Exception( 'No data source given.' );
         switch( $source ) {
+        		// search wikispecies for scientific names of animals or plants
                 case 'wikispecies' :
-                        include __DIR__ . "/connectors/Wikispecies.php";
-                        $auto = new \mwAutocompleteExternal\connectors\Wikispecies( $snoopy );
-                        break;
-
+					include __DIR__ . "/connectors/Wikispecies.php";
+                    $auto = new \mwAutocompleteExternal\connectors\Wikispecies( $snoopy );
+                    break;
+                    
+                // search wikipedia for pages in a category
+				case 'wikipediacategory' :
+					include __DIR__ . "/connectors/WikipediaCategory.php";
+					$auto = new \mwAutocompleteExternal\connectors\WikipediaCategory( $snoopy );
+					break;
+                        
                 case 'institutesDE' :
                         include __DIR__ . "/connectors/InstitutesDE.php";
                         $auto = new \mwAutocompleteExternal\connectors\InstitutesDE( $snoopy );
@@ -31,7 +38,8 @@ try {
 
         // get the autocomplete data (as JSON)
         $query = htmlspecialchars($_GET["search"]);
-        $resp = $auto->search( $query );
+        $lang = htmlspecialchars($_GET["lang"]);
+        $resp = $auto->search( $query, $lang );
         echo $resp;
 
 } catch( Exception $e ) {

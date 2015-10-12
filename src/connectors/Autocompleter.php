@@ -7,9 +7,10 @@ interface Autocompleter {
 	 * and parse the results into a string
 	 * suitable for autocompletion.
 	 * 
-	 * @param unknown $query
+	 * @param string $query
+	 * @param string $lang e.g. de, en
 	 */
-	function search( $query );
+	function search( $query, $lang="" );
 }
 
 abstract class AbstractAutocompleter {
