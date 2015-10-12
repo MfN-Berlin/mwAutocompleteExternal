@@ -3,12 +3,14 @@ namespace mwAutocompleteExternal\connectors;
 include __DIR__ . "/Autocompleter.php";
 
 /**
- * Queries Wikispedia for names of universities in Germany.
+ * Queries Wikispedia for names of universities in Germany,
+ * and research organisations in the German Wikipedia.
  * 
  * @author Alvaro.Ortiz
  */
 class InstitutesDE extends AbstractAutocompleter implements Autocompleter {	
 	protected $institutesUrl = 'http://de.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=100&cmprop=title&format=json&cmtitle=Category:Universität_in_Deutschland';
+	protected $organisationsUrl = 'http://de.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=200&cmprop=title&format=json&cmtitle=Category:Forschungsorganisation';
 	/**
 	 * Constructor
 	 *
@@ -24,10 +26,22 @@ class InstitutesDE extends AbstractAutocompleter implements Autocompleter {
 	 */
 	public function search( $query ) {
 		$found = [];
+		
+		// universities
 		// get the category contents from wikipedia
-		$response = $this->submit( $this->institutesUrl );
+		$response1 = $this->submit( $this->institutesUrl );
 		// list the category page titles
-		$list = $this->parse( $response );
+		$list1 = $this->parse( $response1 );
+		
+		// organisations
+		// get the category contents from wikipedia
+		$response2 = $this->submit( $this->organisationsUrl );
+		// list the category page titles
+		$list2 = $this->parse( $response2 );
+		
+		// bring all results into 1 list
+		$list = array_merge( $list1, $list2 );
+		
 		// search the category page titles
 		foreach( $list as $entry) {
 			if ( stripos( $entry, $query ) !== FALSE ) {
