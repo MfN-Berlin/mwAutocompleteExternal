@@ -24,7 +24,9 @@ try {
                 // search wikipedia for pages in a category
 				case 'wikipediacategory' :
 					include __DIR__ . "/connectors/WikipediaCategory.php";
-					$auto = new \mwAutocompleteExternal\connectors\WikipediaCategory( $snoopy );
+        			$category = htmlspecialchars($_GET["category"]);
+        			$lang = htmlspecialchars($_GET["lang"]);
+					$auto = new \mwAutocompleteExternal\connectors\WikipediaCategory( $snoopy, $category, $lang );
 					break;
                         
                 case 'institutesDE' :
@@ -38,8 +40,7 @@ try {
 
         // get the autocomplete data (as JSON)
         $query = htmlspecialchars($_GET["search"]);
-        $lang = htmlspecialchars($_GET["lang"]);
-        $resp = $auto->search( $query, $lang );
+        $resp = $auto->search( $query );
         echo $resp;
 
 } catch( Exception $e ) {

@@ -8,28 +8,38 @@ include __DIR__ . "/Autocompleter.php";
  * @author Alvaro.Ortiz
  */
 class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
-	protected $categoryUrl = 'http://de.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=1000&cmprop=title&format=json&cmtitle=Category:';
+	/** The Wikipedia category to search */
+	protected $category;
+	
+	/** The Wikipedia language to search */
+	protected $lang;
+	
 	/**
 	 * Constructor
 	 *
 	 * @param Snoopy $snoopy Class to simulate a web browser
+	 * @param string $category a category to narrow the results 
+	 * @param string $lang e.g. de, en
 	 */
-	public function __construct( $snoopy ) {
+	public function __construct( $snoopy, $category='', $lang='' ) {
 		$this->init( $snoopy );
+		$this->category = $category;
+		$this->lang = $lang;
 	}
 	
 	/**
 	 * (non-PHPdoc)
 	 * @see Autocompleter::search()
 	 */
-	public function search( $query, $lang='en' ) {
+	public function search( $query ) {
 		$found = [];
 		
 		// get the category from Wikipedia
-		$url = sprintf( "http://%s.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=1000&cmprop=title&format=json&cmtitle=Category:%s", $lang, $query );
+		$url = sprintf( "http://%s.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=100&cmprop=title&format=json&cmtitle=Category:%s", $this->lang, urlencode( $this->category ) );
+		echo "\n" . $url . "\n";
 		$response = $this->submit( $url );
 		// list the category page titles
-		$list = $this->parse( $response1 );
+		$list = $this->parse( $response );
 				
 		// search the category page titles
 		foreach( $list as $entry) {
