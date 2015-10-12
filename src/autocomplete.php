@@ -28,14 +28,9 @@ try {
         			$lang = htmlspecialchars($_GET["lang"]);
 					$auto = new \mwAutocompleteExternal\connectors\WikipediaCategory( $snoopy, $category, $lang );
 					break;
-                        
-                case 'institutesDE' :
-                        include __DIR__ . "/connectors/InstitutesDE.php";
-                        $auto = new \mwAutocompleteExternal\connectors\InstitutesDE( $snoopy );
-                        break;
 
                 default:
-                        throw new Exception( 'Unknown data source.' );
+                    throw new Exception( 'Unknown data source.' );
         }
 
         // get the autocomplete data (as JSON)
