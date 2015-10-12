@@ -22,7 +22,7 @@ class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
 	 * (non-PHPdoc)
 	 * @see Autocompleter::search()
 	 */
-	public function search( $query, $lang ) {
+	public function search( $query, $lang='en' ) {
 		$found = [];
 		
 		// get the category from Wikipedia
