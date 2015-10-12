@@ -1,6 +1,6 @@
 #mwAutocompleteExternal
 
-Adds external sources (e.g. Wikispecies) to autocomplete in semantic forms.
+Adds external sources (e.g. Wikipedia categories, Wikispecies) to autocomplete in semantic forms.
 
 ## Dependencies
 * Semantic MediaWiki
