@@ -31,6 +31,7 @@ For example, to retrieve the a list of page titles from a category from Wikisped
  {{{field|Taxon|input type=text with autocomplete|values from url=wikipedia}}}
  
 2. In Localsettings of your wiki, add a line naming the url of autocomplete.php:
+
  $sfgAutocompletionURLs['wikipedia'] = 'http://path-to-my/autocomplete.php?source=wikispediacategory&category=mycategory&lang=en&search=<substr>'; 
  
 Done. A list of matching page names should appear when you start tiping in the input field.
