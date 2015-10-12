@@ -38,7 +38,8 @@ try {
 
         // get the autocomplete data (as JSON)
         $query = htmlspecialchars($_GET["search"]);
-        $resp = $auto->search( $query );
+        $lang = htmlspecialchars($_GET["lang"]);
+        $resp = $auto->search( $query, $lang );
         echo $resp;
 
 } catch( Exception $e ) {
