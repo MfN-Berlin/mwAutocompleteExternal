@@ -48,7 +48,7 @@ class InstitutesDE extends AbstractAutocompleter implements Autocompleter {
 		$list = [];
 		$json = json_decode($string, true);
 		foreach( $json["query"]["categorymembers"] as $val ) {
-			$list[] = $val["title"];
+			$list[] = '"' . $val["title"] . '"';
 		}
 		return $list;
 	}
