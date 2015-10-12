@@ -23,7 +23,7 @@ class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
 	 */
 	public function __construct( $snoopy, $category='', $lang='' ) {
 		$this->init( $snoopy );
-		$this->category = $category;
+		$this->category = explode('|', $category);
 		$this->lang = $lang;
 	}
 	
@@ -33,19 +33,23 @@ class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
 	 */
 	public function search( $query ) {
 		$found = [];
-		
-		// get the category from Wikipedia
-		$url = sprintf( "http://%s.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=100&cmprop=title&format=json&cmtitle=Category:%s", $this->lang, urlencode( $this->category ) );
-		$response = $this->submit( $url );
-		// list the category page titles
-		$list = $this->parse( $response );
-				
+		$list = [];
+		foreach( $this->category as $entry ) {
+			// get the category from Wikipedia
+			$url = sprintf( "http://%s.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=100&cmprop=title&format=json&cmtitle=Category:%s", $this->lang, urlencode( $entry ) );
+			$response = $this->submit( $url );
+			// list the category page titles
+			$parsed = $this->parse( $response );
+			$list = array_merge( $list, $parsed );
+		}
+						
 		// search the category page titles
 		foreach( $list as $entry) {
 			if ( stripos( $entry, $query ) !== FALSE ) {
 				$found[] = $entry;
 			} 
 		}
+		
 		$result = $this->format( $found );
 		return $result;
 	}

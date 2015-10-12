@@ -23,7 +23,7 @@ class WikipediaCategoryTest extends PHPUnit_Framework_TestCase {
 		$snoopy = new Snoopy();
 		
 		// Create importer instance
-		$this->auto = new WikipediaCategory( $snoopy, 'Universität in Deutschland', 'de' );
+		$this->auto = new WikipediaCategory( $snoopy, 'Universität in Deutschland|Forschungsorganisation', 'de' );
 	}
 	
 	public function testCreateInstance() {
