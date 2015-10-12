@@ -33,7 +33,7 @@ try {
 	echo $resp;
 	
 } catch( Exception $e ) {
-	echo $e->getMessage();
+	file_put_contents( $ini[ 'log' ], $e->getMessage(), FILE_APPEND );
 }
 
 
