@@ -45,7 +45,7 @@ class RVK extends AbstractAutocompleter implements Autocompleter {
 			$string = utf8_encode( $response );				
 			$json = json_decode($string, true);
 			$crumbs = $this->parseNodePath( $json[ "node" ] );
-			$path[] = implode( "/", array_reverse( $crumbs ) );
+			$path[] = '"' . implode( "/", array_reverse( $crumbs ) ) . '"';
 		}
 		
 		return $path;
