@@ -10,8 +10,8 @@ use \mwAutocompleteExternal\connectors\Wikispecies as Wikispecies;
  */
 class WikispeciesTest extends PHPUnit_Framework_TestCase {
 	public $auto;
-	private $parsed = '{"sfautocomplete": [{ "title" : "Phoca"},{ "title" : "Phoca vitulina"},{ "title" : "Phocarctos"},{ "title" : "Phocarctos hookeri"},{ "title" : "Phoca largha"},{ "title" : "Phoca rosmarus"},{ "title" : "Phoca hispida"},{ "title" : "Phoca vitulina richardii"},{ "title" : "Phoca leonina"},{ "title" : "Phoca vitulina vitulina"}]}';
-	private $query = "Phoca vitulina";
+	private $query = 'Primula_palinuri'; // the Palinuro Primrose
+	private $expected = '{"sfautocomplete": [{ "title" : "Primula palinuri"}]}';
 	
 	public function setUp() {
 		// path to configuration .ini file
@@ -32,6 +32,6 @@ class WikispeciesTest extends PHPUnit_Framework_TestCase {
 	
 	public function testSubmit() {
 		$resp = $this->auto->search( $this->query );
-		$this->assertEquals( $this->parsed, $resp );
+		$this->assertEquals( $this->expected, $resp );
 	} 
 }	
