@@ -28,7 +28,13 @@ try {
 					$lang = htmlspecialchars($_GET["lang"]);
 					$auto = new \mwAutocompleteExternal\connectors\WikipediaCategory( $snoopy, $category, $lang );
 					break;
-
+					
+				// Queries Regensburger Verbundklassifikation (German library reference).
+				case 'rvk' :
+					include __DIR__ . "/connectors/RVK.php";
+					$auto = new \mwAutocompleteExternal\connectors\RVK( $snoopy );
+					break;
+							
 				default:
 					throw new Exception( 'Unknown data source.' );
 		}

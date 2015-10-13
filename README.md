@@ -34,8 +34,13 @@ For example, to retrieve the a list of page titles from a category from Wikisped
 
  $sfgAutocompletionURLs['wikipedia'] = 'http://path-to-my/autocomplete.php?source=wikispediacategory&category=mycategory&lang=en&search=<substr>'; 
 
-** You'll need to set the "category" and "lang" parameters. Make sure to replace spaces with underscores in the category name.
-** To retrieve names from several categories, separate them with a pipe, like so: category=cat1|cat2|cat3
-** A maximum of 500 names can be retrieved. This is a limitation of the wikipedia API.
+* You'll need to set the "category" and "lang" parameters. Make sure to replace spaces with underscores in the category name.
+* To retrieve names from several categories, separate them with a pipe, like so: category=cat1|cat2|cat3
+* A maximum of 500 names can be retrieved. This is a limitation of the wikipedia API.
 
 Done. A list of matching page names should appear when you start tiping in the input field.
+
+## Other data sources
+rvk: Queries Regensburger Verbundklassifikation (German library reference).
+
+
