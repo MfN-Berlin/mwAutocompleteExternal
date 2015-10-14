@@ -49,7 +49,6 @@ class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
 				$found[] = $entry;
 			} 
 		}
-		
 		$result = $this->format( $found );
 		return $result;
 	}
