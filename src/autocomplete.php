@@ -30,11 +30,18 @@ try {
 					$auto = new \mwAutocompleteExternal\connectors\WikipediaCategory( $snoopy, $category, $lang );
 					break;
 					
-				// Queries Regensburger Verbundklassifikation (German library reference).
+				// Queries Regensburger Verbundklassifikation (German library reference): browse the tree
 				case 'rvk' :
 					include __DIR__ . "/connectors/RVK.php";
 					$filter = htmlspecialchars($_GET["filter"]);
 					$auto = new \mwAutocompleteExternal\connectors\RVK( $snoopy, $filter );
+					break;
+					
+				// Queries Regensburger Verbundklassifikation (German library reference)
+				case 'rvkregister' :
+					include __DIR__ . "/connectors/RVKRegister.php";
+					$filter = htmlspecialchars($_GET["filter"]);
+					$auto = new \mwAutocompleteExternal\connectors\RVKRegister( $snoopy, $filter );
 					break;
 							
 				default:
