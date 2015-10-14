@@ -37,6 +37,20 @@ abstract class AbstractAutocompleter {
 	}
 	
 	/**
+	 * Get a json object from the api
+	 *
+	 * @param unknown $url
+	 * @return mixed
+	 */
+	protected function getJson( $url ) {
+		$response = $this->submit( $url );
+		// make sure encoding is correct
+		$response = utf8_encode( $response );
+		$json = json_decode($response, true);
+		return $json;
+	}
+	
+	/**
 	 * Format an array of results into an autocompletion string
 	 * 
 	 * @param array $parts
