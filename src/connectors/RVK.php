@@ -36,7 +36,7 @@ class RVK extends AbstractAutocompleter implements Autocompleter {
 				$found[] = $entry;
 			} 
 		}
-
+		
 		// format for autocomplete
 		$result = $this->format( $found );
 		return $result;

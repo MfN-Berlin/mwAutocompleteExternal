@@ -42,6 +42,8 @@ abstract class AbstractAutocompleter {
 	 * @param array $parts
 	 */
 	protected function format( array $parts ) {
+		sort($parts);
+		
 		$resp = '{"sfautocomplete": [';
 		for( $i = 0; $i < count( $parts ); $i++ ) {
 			$resp .= '{ "title" : "' . $parts[ $i ] . '"},';
