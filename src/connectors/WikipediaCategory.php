@@ -37,9 +37,9 @@ class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
 		foreach( $this->category as $entry ) {
 			// get the category from Wikipedia
 			$url = sprintf( "http://%s.wikipedia.org/w/api.php?action=query&list=categorymembers&cmlimit=500&cmprop=title&format=json&cmtitle=Category:%s", $this->lang, urlencode( $entry ) );
-			$response = $this->submit( $url );
+			$json = $this->getJson( $url );
 			// list the category page titles
-			$parsed = $this->parse( $response );
+			$parsed = $this->parse( $json );
 			$list = array_merge( $list, $parsed );
 		}
 						
@@ -59,9 +59,8 @@ class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
 	 * @param String $string
 	 * @return String
 	 */
-	protected function parse( $string ) {
+	protected function parse( $json ) {
 		$list = [];
-		$json = json_decode($string, true);
 		foreach( $json["query"]["categorymembers"] as $val ) {
 			$list[] = $val["title"];
 		}

@@ -1,9 +1,9 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
 include __DIR__ . "/Autocompleter.php";
-
 /**
  * Queries Regensburger Verbundklassifikation (German library reference).
+ * Use this class to query the first two levels of the entire tree.
  *  
  * @author Alvaro.Ortiz
  */
@@ -66,19 +66,5 @@ class RVK extends AbstractAutocompleter implements Autocompleter {
 		}
 		return $list;
 	}
-	
-	/**
-	 * Get a json object from the api
-	 * 
-	 * @param unknown $url
-	 * @return mixed
-	 */
-	private function getJson( $url ) {
-		$response = $this->submit( $url );
-		// make sure encoding is correct
-		$response = utf8_encode( $response );
-		$json = json_decode($response, true);
-		return $json;
-	}
-		
+			
 }

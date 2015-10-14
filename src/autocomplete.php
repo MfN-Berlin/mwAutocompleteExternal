@@ -33,7 +33,8 @@ try {
 				// Queries Regensburger Verbundklassifikation (German library reference).
 				case 'rvk' :
 					include __DIR__ . "/connectors/RVK.php";
-					$auto = new \mwAutocompleteExternal\connectors\RVK( $snoopy );
+					$filter = htmlspecialchars($_GET["filter"]);
+					$auto = new \mwAutocompleteExternal\connectors\RVK( $snoopy, $filter );
 					break;
 							
 				default:

@@ -41,6 +41,7 @@ For example, to retrieve the a list of page titles from a category from Wikisped
 Done. A list of matching page names should appear when you start tiping in the input field.
 
 ## Other data sources
-rvk: Queries Regensburger Verbundklassifikation (German library reference).
+rvk: Regensburger Verbundklassifikation (German library reference): queries the first two levels of the tree .
+rvkregister: Regensburger Verbundklassifikation (German library reference): queries the entire register.
 
 
