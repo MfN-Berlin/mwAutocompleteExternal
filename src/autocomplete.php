@@ -37,13 +37,19 @@ try {
 					$auto = new \mwAutocompleteExternal\connectors\RVK( $snoopy, $filter );
 					break;
 					
-				// Queries Regensburger Verbundklassifikation (German library reference)
+				// Queries Regensburger Verbundklassifikation (German library reference): query registry
 				case 'rvkregister' :
 					include __DIR__ . "/connectors/RVKRegister.php";
-					$filter = htmlspecialchars($_GET["filter"]);
-					$auto = new \mwAutocompleteExternal\connectors\RVKRegister( $snoopy, $filter );
+					$auto = new \mwAutocompleteExternal\connectors\RVKRegister( $snoopy );
 					break;
-							
+					
+				// Queries Regensburger Verbundklassifikation (German library reference): filter registry, then query
+				case 'rvkfiltered' :
+					include __DIR__ . "/connectors/RVKFiltered.php";
+					$filter = htmlspecialchars($_GET["filter"]);
+					$auto = new \mwAutocompleteExternal\connectors\RVKFiltered( $snoopy, $filter );
+					break;
+
 				default:
 					throw new Exception( 'Unknown data source.' );
 		}
