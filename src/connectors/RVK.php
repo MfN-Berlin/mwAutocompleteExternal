@@ -8,13 +8,14 @@ include __DIR__ . "/Autocompleter.php";
  * @author Alvaro.Ortiz
  */
 class RVK extends AbstractAutocompleter implements Autocompleter {
+	protected $url = 'http://rvk.uni-regensburg.de/api/json/children/'; // the root of the tree
 	
 	/**
 	 * Constructor
 	 *
 	 * @param Snoopy $snoopy Class to simulate a web browser
 	 */
-	public function __construct( $snoopy, $category='', $lang='' ) {
+	public function __construct( $snoopy ) {
 		$this->init( $snoopy );
 	}
 	
@@ -23,69 +24,61 @@ class RVK extends AbstractAutocompleter implements Autocompleter {
 	 * @see Autocompleter::search()
 	 */
 	public function search( $query ) {
-		$url = sprintf( 'http://rvk.uni-regensburg.de/api/json/register/' . $query );
-		$response = $this->submit( $url );
+		// call the api
+		$json = $this->getJson( $this->url );
 		// list the nodes
-		$nodes = $this->parseNodes( $response );
-		$found = $this->getNodePaths( $nodes );
+		$list = $this->parseNodes( $json );
+		
+		// search the results
+		$found = [];
+		foreach( $list as $entry) {
+			if ( stripos( $entry, $query ) !== FALSE ) {
+				$found[] = $entry;
+			} 
+		}
+
+		// format for autocomplete
 		$result = $this->format( $found );
 		return $result;
 	}
-
-	/**
-	 * Gets the complete paths of nodes in array
-	 * 
-	 * @param array $nodes
-	 */
-	protected function getNodePaths( array $nodes ) {
-		$url = sprintf( 'http://rvk.uni-regensburg.de/api/json/ancestors/' );
-		$path = [];
-		foreach( $nodes as $id ) {
-			$response = $this->submit( $url . urlencode( $id ) );
-			$string = utf8_encode( $response );				
-			$json = json_decode($string, true);
-			$crumbs = $this->parseNodePath( $json[ "node" ] );
-			$path[] = '"' . implode( "/", array_reverse( $crumbs ) ) . '"';
-		}
-		
-		return $path;
-	}
 	
 	/**
-	 * Recursivelly parse the path to the given node.
-	 * 
-	 * @param array<String> $crumbs
-	 * @param Node $node
-	 */
-	protected function parseNodePath( $node, $crumbs = [] ) {
-		$crumbs[] = $node[ "benennung" ];
-		
-		if ( array_key_exists( "ancestor", $node ) ) {
-			$ancestor = $node[ "ancestor" ];
-			return $this->parseNodePath( $ancestor[ "node" ], $crumbs );
-			
-		} else {
-			return $crumbs;
-		}
-	}
-	
-	/**
-	 * Parses the query result and returns an array of nodes ids
-	 * 
-	 * @param String $string a JSON query result
+	 * Parses the query result and returns an array of nodes names
+	 *
+	 * @param array $json a JSON query result
 	 * @return array<String> an array of node ids
 	 */
-	protected function parseNodes( $string ) {
+	protected function parseNodes( $json ) {
 		$list = [];
-		// make sure encoding is correct
-		$string = utf8_encode( $string );
-		$json = json_decode($string, true);
-		foreach( $json["Register"] as $val ) {
-			// pick up good results
-			if ( array_key_exists( "match", $val ) && ( $val["match"] == "following" || $val["match"] == "exact" ) ) {
-				$list[] = $val["notation"];
+		// get the names of the nodes
+		foreach( $json["node"]["children"]["node"] as $val ) {
+			$rootNodeName = $val["benennung"];
+			$list[] = $rootNodeName;
+			// get the subnodes
+			if ( $val["has_children"] == "yes" ) {
+				$notation = $val["notation"];
+				$json2 = $this->getJson( $this->url . urlencode($notation) );
+				// get subnode names
+				foreach( $json2["node"]["children"]["node"] as $val2 ) {
+					$list[] = $rootNodeName . "/" . $val2["benennung"];
+				}
 			}
 		}
 		return $list;
 	}
+	
+	/**
+	 * Get a json object from the api
+	 * 
+	 * @param unknown $url
+	 * @return mixed
+	 */
+	private function getJson( $url ) {
+		$response = $this->submit( $url );
+		// make sure encoding is correct
+		$response = utf8_encode( $response );
+		$json = json_decode($response, true);
+		return $json;
+	}
+		
 }

@@ -3,10 +3,11 @@
 $configPath =  __DIR__ . "/config.ini";
 
 try {
+		// parse the config.ini file
+		$ini = parse_ini_file( $configPath );
 		// Create a Snoopy (HTML client) instance
 		// Snoopy is an external dependency,
 		// so it's instantiated here in the main
-		$ini = parse_ini_file( $configPath );
 		require_once $ini[ 'snoopyPath' ];
 		$snoopy = new Snoopy();
 

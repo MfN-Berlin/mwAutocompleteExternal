@@ -44,7 +44,7 @@ abstract class AbstractAutocompleter {
 	protected function format( array $parts ) {
 		$resp = '{"sfautocomplete": [';
 		for( $i = 0; $i < count( $parts ); $i++ ) {
-			$resp .= '{ "title" : ' . $parts[ $i ] . '},';
+			$resp .= '{ "title" : "' . $parts[ $i ] . '"},';
 		}
 		$resp = substr( $resp, 0, -1 );
 		$resp .= ']}';

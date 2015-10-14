@@ -39,6 +39,10 @@ class Wikispecies extends AbstractAutocompleter implements Autocompleter {
 		$parts1 = explode( '[', $string);
 		$parts2 = explode( ']', $parts1[2]);
 		$parts3 = explode( ',', $parts2[0] );
+		// drop the quotes
+		for( $i = 0; $i < count($parts3); $i++) {
+			$parts3[$i] = str_replace('"', "", $parts3[$i] );
+		}
 		$resp = $this->format( $parts3 );
 		return $resp;
 	}
