@@ -61,6 +61,43 @@ class RVKRegister extends AbstractAutocompleter implements Autocompleter {
 	 * @param array $nodes
 	 */
 	protected function getNodePaths( array $nodes ) {
+		$url = sprintf( 'http://rvk.uni-regensburg.de/api/json/ancestors/' );
+		$path = [];
+		foreach( $nodes as $id ) {
+			$response = $this->submit( $url . urlencode( $id ) );
+			$string = utf8_encode( $response );
+			$json = json_decode($string, true);
+			$crumbs = $this->parseNodePath( $json[ "node" ] );
+			$path[] = implode( "/", array_reverse( $crumbs ) );
+		}
+	
+		return $path;
+	}
+	
+	/**
+	 * Recursivelly parse the path to the given node.
+	 *
+	 * @param array<String> $crumbs
+	 * @param Node $node
+	 */
+	protected function parseNodePath( $node, $crumbs = [] ) {
+		$crumbs[] = $node[ "benennung" ];
+	
+		if ( array_key_exists( "ancestor", $node ) ) {
+			$ancestor = $node[ "ancestor" ];
+			return $this->parseNodePath( $ancestor[ "node" ], $crumbs );
+				
+		} else {
+			return $crumbs;
+		}
+	}
+	
+	/**
+	 * Gets the complete paths of nodes in array
+	 *
+	 * @param array $nodes
+	 */
+	protected function getNodePaths_ALT( array $nodes ) {
 		$url = sprintf( 'http://rvk.uni-regensburg.de/api/json/node/' );
 		$path = [];
 		foreach( $nodes as $id ) {
