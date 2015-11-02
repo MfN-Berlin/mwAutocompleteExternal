@@ -28,7 +28,7 @@ class Autocompleter {
 		// pop last char if last char is a separator
 		if ( substr($query, -1) == $separator ) $query = substr( $query, 0, -1 );
 		// if no separator present, return the query string as is
-		if (strpos( $separator, $query ) === FALSE ) return $query;
+		if (strpos( $query, $separator ) === FALSE ) return $query;
 		// otherwise return the last part of the query string
 		$parts = explode( $separator, $query );
 		return array_pop($parts);

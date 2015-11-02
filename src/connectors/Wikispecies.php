@@ -1,7 +1,7 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
-include __DIR__ . "/AbstractSearcher.php";
-include __DIR__ . "/Autocompleter.php";
+include_once __DIR__ . "/AbstractSearcher.php";
+include_once __DIR__ . "/Autocompleter.php";
 
 /**
  * Queries Wikispecies for taxon names.

@@ -12,7 +12,7 @@ use \mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
  */
 class RVKRegisterTest extends PHPUnit_Framework_TestCase {
 	// Direct search
-	public $directRVK;
+	public $auto;
 	private $query = "Meeresforschung";
 	private $expected = '{"sfautocomplete": [{ "title" : "Biologie/Ökologie/Hydrobiologie (Meereskunde und Limnologie)/Meereskunde allgemein"},{ "title" : "Biologie/Ökologie/Hydrobiologie (Meereskunde und Limnologie)/Meereskunde allgemein/Chemische Grundlagen"},{ "title" : "Biologie/Ökologie/Hydrobiologie (Meereskunde und Limnologie)/Meereskunde allgemein/Physikalische Grundlagen"},{ "title" : "Geographie/Nicht regional gebundene Darstellungen/Allgemeine Geographie/Mathematische Geographie und Physiogeographie/Hydrogeographie/Meereskunde (Ozeanographie)/Gesamtdarstellungen"},{ "title" : "Geographie/Nicht regional gebundene Darstellungen/Allgemeine Geographie/Mathematische Geographie und Physiogeographie/Hydrogeographie/Meereskunde (Ozeanographie)/Nachschlagewerke, Aufgaben, Methoden u.ä."},{ "title" : "Geographie/Nicht regional gebundene Darstellungen/Allgemeine Geographie/Mathematische Geographie und Physiogeographie/Hydrogeographie/Meereskunde (Ozeanographie)/Teilgebiete und Einzelfragen"},{ "title" : "Geographie/Nicht regional gebundene Darstellungen/Allgemeine Geographie/Mathematische Geographie und Physiogeographie/Hydrogeographie/Meereskunde (Ozeanographie)/Teilgebiete und Einzelfragen/Regionale Ozeanographie"}]}';
 		
@@ -26,18 +26,32 @@ class RVKRegisterTest extends PHPUnit_Framework_TestCase {
 		$snoopy = new Snoopy();
 		
 		// Create autocompleter instance for direct search
-		$this->directRVK = new AUtocompleter( new RVKRegister( $snoopy ) );
+		$this->auto = new Autocompleter( new RVKRegister( $snoopy ) );
 		
 	}
 
 	// Direct search
 	public function testCreateDirectInstance() {
-		$this->assertNotNull( $this->directRVK );
+		$this->assertNotNull( $this->auto );
 	}
 	
 	public function testSubmitDirect() {
-		$resp = $this->directRVK->search( $this->query );
+		$resp = $this->auto->search( $this->query );
 		$this->assertEquals( $this->expected, $resp );
 	} 
 	
+	/**
+	 * Query with multiple entries separated by ';'
+	 * Only the last one is processed
+	 */
+	public function testMultiple() {
+		$resp = $this->auto->search( 'test;' . $this->query );
+		$this->assertEquals( $this->expected, $resp );
+		// what happens if the string is terminated by a separator?
+		$resp = $this->auto->search( 'test;' . $this->query . ';' );
+		$this->assertEquals( $this->expected, $resp );
+		// what happens if the string starts by a separator?
+		$resp = $this->auto->search( ';' . $this->query );
+		$this->assertEquals( $this->expected, $resp );
+	}
 }
