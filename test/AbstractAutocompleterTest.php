@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/DummyAutocompleter.php";
+include_once __DIR__ . "/DummyAutocompleter.php";
 
 /**
  * Unit tests for class AbstractAutocompleter

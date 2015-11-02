@@ -1,6 +1,6 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
-include __DIR__ . "/Autocompleter.php";
+include_once __DIR__ . "/Autocompleter.php";
 
 /**
  * Queries Wikipedia for a list of pages in given category

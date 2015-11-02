@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/../src/connectors/RVKRegister.php";
+include_once __DIR__ . "/../src/connectors/RVKRegister.php";
 use \mwAutocompleteExternal\connectors\RVKRegister as RVKRegister;
 
 /**

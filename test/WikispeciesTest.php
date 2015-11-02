@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/../src/connectors/Wikispecies.php";
+include_once __DIR__ . "/../src/connectors/Wikispecies.php";
 use \mwAutocompleteExternal\connectors\Wikispecies as Wikispecies;
 
 /**

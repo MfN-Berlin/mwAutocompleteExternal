@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/../src/connectors/WikipediaCategory.php";
+include_once __DIR__ . "/../src/connectors/WikipediaCategory.php";
 use \mwAutocompleteExternal\connectors\WikipediaCategory as WikipediaCategory;
 
 /**

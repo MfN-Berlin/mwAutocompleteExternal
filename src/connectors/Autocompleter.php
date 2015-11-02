@@ -35,6 +35,21 @@ abstract class AbstractAutocompleter {
 		$this->snoopy->submit( $searchUrl );
 		return $this->snoopy->results;
 	}
+
+	/**
+	 * Process the given query string before it is used to search autocomplete values.
+	 * * Detect multiple values in a field, default separator is ';'
+	 */
+	protected function prepareQueryString( $query, $separator=';' ) {
+		$query = trim($query);
+		// pop last char if last char is a separator
+		if ( substr($query, -1) == $separator ) $query = substr( $query, 0, -1 );
+		// if no separator present, return the query string as is
+		if (strpos( $separator, $query ) === FALSE ) return $query;
+		// otherwise return the last part of the query string
+		$parts = explode( $separator, $query );
+		return array_pop($parts);
+	}
 	
 	/**
 	 * Get a json object from the api

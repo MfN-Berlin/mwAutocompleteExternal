@@ -1,6 +1,6 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
-include __DIR__ . "/RVKRegister.php";
+include_once __DIR__ . "/RVKRegister.php";
 
 /**
  * Queries Regensburger Verbundklassifikation (German library reference).

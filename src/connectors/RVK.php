@@ -1,6 +1,6 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
-include __DIR__ . "/Autocompleter.php";
+include_once __DIR__ . "/Autocompleter.php";
 /**
  * Queries Regensburger Verbundklassifikation (German library reference).
  * Use this class to query the first two levels of the entire tree.

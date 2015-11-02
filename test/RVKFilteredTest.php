@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . "/../src/connectors/RVKFiltered.php";
+include_once __DIR__ . "/../src/connectors/RVKFiltered.php";
 use \mwAutocompleteExternal\connectors\RVKFiltered as RVKFiltered;
 
 /**

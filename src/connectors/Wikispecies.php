@@ -24,6 +24,7 @@ class Wikispecies extends AbstractAutocompleter implements Autocompleter {
 	 * @see Autocompleter::search()
 	 */
 	public function search( $query ) {
+		$query = $this->prepareQueryString( $query );
 		$json = $this->getJson( $this->wikispeciesUrl . $query );
 		$result = $this->format( $json[1] );
 		return $result;
