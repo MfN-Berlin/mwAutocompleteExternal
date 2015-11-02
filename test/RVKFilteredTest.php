@@ -1,6 +1,7 @@
 <?php
 include_once __DIR__ . "/../src/connectors/RVKFiltered.php";
 use \mwAutocompleteExternal\connectors\RVKFiltered as RVKFiltered;
+use \mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
 
 /**
  * Unit tests for class RVKRegister autocompleter
@@ -30,10 +31,10 @@ class RVKFilteredTest extends PHPUnit_Framework_TestCase {
 		$snoopy = new Snoopy();
 				
 		// Create autocompleter instance for filtered search
-		$this->filterRVK = new RVKFiltered( $snoopy, $this->filter );
+		$this->filterRVK = new Autocompleter( new RVKFiltered( $snoopy, $this->filter ) );
 		
 		// Create autocompleter instance for 2 filters
-		$this->filterRVK2 = new RVKFiltered( $snoopy, $this->filter2 );
+		$this->filterRVK2 = new Autocompleter( new RVKFiltered( $snoopy, $this->filter2 ) );
 	}
 	
 	// filtered search

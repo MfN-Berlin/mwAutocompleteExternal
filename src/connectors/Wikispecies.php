@@ -1,5 +1,6 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
+include __DIR__ . "/AbstractSearcher.php";
 include __DIR__ . "/Autocompleter.php";
 
 /**
@@ -7,7 +8,7 @@ include __DIR__ . "/Autocompleter.php";
  * 
  * @author Alvaro.Ortiz
  */
-class Wikispecies extends AbstractAutocompleter implements Autocompleter {	
+class Wikispecies extends AbstractSearcher implements Searchable {	
 	protected $wikispeciesUrl = "http://species.wikimedia.org/w/api.php?action=opensearch&format=json&search=";
 	
 	/**
@@ -21,13 +22,11 @@ class Wikispecies extends AbstractAutocompleter implements Autocompleter {
 	
 	/**
 	 * (non-PHPdoc)
-	 * @see Autocompleter::search()
+	 * @see Searchable::search()
 	 */
 	public function search( $query ) {
-		$query = $this->prepareQueryString( $query );
 		$json = $this->getJson( $this->wikispeciesUrl . $query );
-		$result = $this->format( $json[1] );
-		return $result;
+		return $json[1];
 	}
 	
 }

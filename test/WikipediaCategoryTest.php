@@ -1,6 +1,7 @@
 <?php
 include_once __DIR__ . "/../src/connectors/WikipediaCategory.php";
 use \mwAutocompleteExternal\connectors\WikipediaCategory as WikipediaCategory;
+use \mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
 
 /**
  * Unit tests for class WikipediaCategory autocompleter
@@ -23,7 +24,7 @@ class WikipediaCategoryTest extends PHPUnit_Framework_TestCase {
 		$snoopy = new Snoopy();
 		
 		// Create importer instance
-		$this->auto = new WikipediaCategory( $snoopy, 'Universität in Deutschland|Forschungsorganisation', 'de' );
+		$this->auto = new Autocompleter( new WikipediaCategory( $snoopy, 'Universität in Deutschland|Forschungsorganisation', 'de' ) );
 	}
 	
 	public function testCreateInstance() {

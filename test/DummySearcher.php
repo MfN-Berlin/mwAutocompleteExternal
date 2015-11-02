@@ -1,15 +1,15 @@
 <?php
 include_once __DIR__ . "/../src/connectors/Wikispecies.php";
-use mwAutocompleteExternal\connectors\AbstractAutocompleter as AbstractAutocompleter;
+use mwAutocompleteExternal\connectors\AbstractSearcher as AbstractSearcher;
 use mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
 
 /**
- * A dummy class to for testing AbstractAutocompleter (which is abstract, so cannot be instantiated directly).
+ * A dummy class to for testing AbstractSearcher (which is abstract, so cannot be instantiated directly).
  * 
  * @author Alvaro.Ortiz
  *
  */
-class DummyAutocompleter extends AbstractAutocompleter implements Autocompleter {
+class DummySearcher extends AbstractSearcher {
 	/**
 	 * Constructor
 	 *

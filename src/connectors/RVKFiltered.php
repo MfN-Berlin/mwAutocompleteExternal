@@ -10,7 +10,7 @@ include_once __DIR__ . "/RVKRegister.php";
  *  
  * @author Alvaro.Ortiz
  */
-class RVKFiltered extends RVKRegister implements Autocompleter {
+class RVKFiltered extends RVKRegister implements Searchable {
 	/** A term to narrow the search */
 	protected $filter;
 	
@@ -47,9 +47,8 @@ class RVKFiltered extends RVKRegister implements Autocompleter {
 				$found[] = $entry;
 			} 
 		}
-		$result = $this->format( $found );
 
-		return $result;
+		return $found;
 	}
 	
 }

@@ -1,5 +1,6 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
+include_once __DIR__ . "/AbstractSearcher.php";
 include_once __DIR__ . "/Autocompleter.php";
 
 /**
@@ -7,7 +8,7 @@ include_once __DIR__ . "/Autocompleter.php";
  *  
  * @author Alvaro.Ortiz
  */
-class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
+class WikipediaCategory extends AbstractSearcher implements Searchable {
 	/** The Wikipedia category to search */
 	protected $category;
 	
@@ -49,8 +50,7 @@ class WikipediaCategory extends AbstractAutocompleter implements Autocompleter {
 				$found[] = $entry;
 			} 
 		}
-		$result = $this->format( $found );
-		return $result;
+		return $found;
 	}
 	
 	/**

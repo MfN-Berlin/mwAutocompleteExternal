@@ -1,6 +1,8 @@
 <?php
+include_once __DIR__ . "/../src/connectors/Autocompleter.php";
 include_once __DIR__ . "/../src/connectors/RVKRegister.php";
 use \mwAutocompleteExternal\connectors\RVKRegister as RVKRegister;
+use \mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
 
 /**
  * Unit tests for class RVKRegister autocompleter
@@ -24,7 +26,7 @@ class RVKRegisterTest extends PHPUnit_Framework_TestCase {
 		$snoopy = new Snoopy();
 		
 		// Create autocompleter instance for direct search
-		$this->directRVK = new RVKRegister( $snoopy );
+		$this->directRVK = new AUtocompleter( new RVKRegister( $snoopy ) );
 		
 	}
 

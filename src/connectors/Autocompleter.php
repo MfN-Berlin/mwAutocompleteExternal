@@ -1,41 +1,24 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
 
-interface Autocompleter {
-	/**
-	 * Submit a query to the web service 
-	 * and parse the results into a string
-	 * suitable for autocompletion.
-	 * 
-	 * @param string $query the string to autocomplete
-	 */
-	function search( $query );
-}
-
-abstract class AbstractAutocompleter {
-	/** Instance of the Snoopy HTTP client */
-	protected $snoopy;
+class Autocompleter {
+	protected $searcher;
 	
 	/**
-	 * Initialize the class. Call from child class
 	 * # Inject the Snoopy (HTML client) instance
-	 * # Set the base URL
+	 * # Set the searchable class
 	 */
-	protected function init( $snoopy ) {
-		// The Snoopy instance
-		$this->snoopy = $snoopy;
+	public function __construct( Searchable $searcher ) {
+		$this->searcher = $searcher;
 	}
 
-	/**
-	 * Submit them to the web service and return the raw (unparsed) result 
-	 * 
-	 * @param String $searchUrl
-	 */
-	protected function submit( $searchUrl ) {
-		$this->snoopy->submit( $searchUrl );
-		return $this->snoopy->results;
+	public function search( $query ) {
+		$query = $this->prepareQueryString($query);
+		$json = $this->searcher->search($query); 
+		$result = $this->format( $json );
+		return $result;
 	}
-
+	
 	/**
 	 * Process the given query string before it is used to search autocomplete values.
 	 * * Detect multiple values in a field, default separator is ';'
@@ -49,20 +32,6 @@ abstract class AbstractAutocompleter {
 		// otherwise return the last part of the query string
 		$parts = explode( $separator, $query );
 		return array_pop($parts);
-	}
-	
-	/**
-	 * Get a json object from the api
-	 *
-	 * @param unknown $url
-	 * @return mixed
-	 */
-	protected function getJson( $url ) {
-		$response = $this->submit( $url );
-		// make sure encoding is correct
-		$response = utf8_encode( $response );
-		$json = json_decode($response, true);
-		return $json;
 	}
 	
 	/**

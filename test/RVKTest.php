@@ -1,5 +1,7 @@
 <?php
+include_once __DIR__ . "/../src/connectors/Autocompleter.php";
 include_once __DIR__ . "/../src/connectors/RVK.php";
+use \mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
 use \mwAutocompleteExternal\connectors\RVK as RVK;
 
 /**
@@ -23,7 +25,7 @@ class RVKTest extends PHPUnit_Framework_TestCase {
 		$snoopy = new Snoopy();
 		
 		// Create importer instance
-		$this->auto = new RVK( $snoopy );
+		$this->auto = new Autocompleter( new RVK( $snoopy ) );
 	}
 	
 	public function testCreateInstance() {

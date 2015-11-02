@@ -1,5 +1,6 @@
 <?php
 namespace mwAutocompleteExternal\connectors;
+include_once __DIR__ . "/AbstractSearcher.php";
 include_once __DIR__ . "/Autocompleter.php";
 
 /**
@@ -10,7 +11,7 @@ include_once __DIR__ . "/Autocompleter.php";
  *  
  * @author Alvaro.Ortiz
  */
-class RVKRegister extends AbstractAutocompleter implements Autocompleter {
+class RVKRegister extends AbstractSearcher implements Searchable {
 	
 	/**
 	 * Constructor
@@ -33,8 +34,7 @@ class RVKRegister extends AbstractAutocompleter implements Autocompleter {
 		$nodes = $this->parseNodes( $response );
 		$list = $this->getNodePaths( $nodes );
 		
-		$result = $this->format( $list );
-		return $result;
+		return $list;
 	}
 	
 	/**
@@ -91,23 +91,5 @@ class RVKRegister extends AbstractAutocompleter implements Autocompleter {
 			return $crumbs;
 		}
 	}
-	
-	/**
-	 * Gets the complete paths of nodes in array
-	 *
-	 * @param array $nodes
-	 */
-	protected function getNodePaths_ALT( array $nodes ) {
-		$url = sprintf( 'http://rvk.uni-regensburg.de/api/json/node/' );
-		$path = [];
-		foreach( $nodes as $id ) {
-			$json = $this->getJson( $url . urlencode( $id ) );
-			$crumbs = $json[ "node" ][ "register" ];
-			$crumbs[] = $json[ "node" ][ "benennung" ];
-			$path[] = implode( "/", $crumbs );
-		}
-	
-		return $path;
-	}
-	
+		
 }
