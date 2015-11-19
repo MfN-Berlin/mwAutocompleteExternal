@@ -1,6 +1,7 @@
 <?php
-include __DIR__ . "/../src/connectors/WikipediaCategory.php";
+include_once __DIR__ . "/../src/connectors/WikipediaCategory.php";
 use \mwAutocompleteExternal\connectors\WikipediaCategory as WikipediaCategory;
+use \mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
 
 /**
  * Unit tests for class WikipediaCategory autocompleter
@@ -23,7 +24,7 @@ class WikipediaCategoryTest extends PHPUnit_Framework_TestCase {
 		$snoopy = new Snoopy();
 		
 		// Create importer instance
-		$this->auto = new WikipediaCategory( $snoopy, 'Universität in Deutschland|Forschungsorganisation', 'de' );
+		$this->auto = new Autocompleter( new WikipediaCategory( $snoopy, 'Universität in Deutschland|Forschungsorganisation', 'de' ) );
 	}
 	
 	public function testCreateInstance() {
@@ -34,4 +35,19 @@ class WikipediaCategoryTest extends PHPUnit_Framework_TestCase {
 		$resp = $this->auto->search( $this->query );
 		$this->assertEquals( $this->expected, $resp );
 	} 
+	
+	/**
+	 * Query with multiple entries separated by ';'
+	 * Only the last one is processed
+	 */
+	public function testMultiple() {
+		$resp = $this->auto->search( 'test;' . $this->query );
+		$this->assertEquals( $this->expected, $resp );
+		// what happens if the string is terminated by a separator?
+		$resp = $this->auto->search( 'test;' . $this->query . ';' );
+		$this->assertEquals( $this->expected, $resp );
+		// what happens if the string starts by a separator?
+		$resp = $this->auto->search( ';' . $this->query );
+		$this->assertEquals( $this->expected, $resp );
+	}
 }

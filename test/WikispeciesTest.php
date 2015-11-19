@@ -1,5 +1,6 @@
 <?php
-include __DIR__ . "/../src/connectors/Wikispecies.php";
+include_once __DIR__ . "/../src/connectors/Wikispecies.php";
+use \mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
 use \mwAutocompleteExternal\connectors\Wikispecies as Wikispecies;
 
 /**
@@ -23,7 +24,7 @@ class WikispeciesTest extends PHPUnit_Framework_TestCase {
 		$snoopy = new Snoopy();
 		
 		// Create importer instance
-		$this->auto = new Wikispecies( $snoopy );
+		$this->auto = new Autocompleter( new Wikispecies( $snoopy ) );
 	}
 	
 	public function testCreateWikispecies() {
@@ -33,5 +34,21 @@ class WikispeciesTest extends PHPUnit_Framework_TestCase {
 	public function testSubmit() {
 		$resp = $this->auto->search( $this->query );
 		$this->assertEquals( $this->expected, $resp );
-	} 
+	}
+	
+	/**
+	 * Query with multiple entries separated by ';'
+	 * Only the last one is processed
+	 */
+	public function testMultiple() {
+		$resp = $this->auto->search( 'test;' . $this->query );
+		$this->assertEquals( $this->expected, $resp );
+		// what happens if the string is terminated by a separator?
+		$resp = $this->auto->search( 'test;' . $this->query . ';' );
+		$this->assertEquals( $this->expected, $resp );
+		// what happens if the string starts by a separator?
+		$resp = $this->auto->search( ';' . $this->query );
+		$this->assertEquals( $this->expected, $resp );
+	}
+	
 }	

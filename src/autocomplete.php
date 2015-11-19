@@ -1,4 +1,7 @@
 <?php
+include_once __DIR__ . "/Autocompleter.php";
+use \mwAutocompleteExternal\connectors\Autocompleter as Autocompleter;
+
 // path to configuration .ini file
 $configPath =  __DIR__ . "/config.ini";
 
@@ -19,7 +22,7 @@ try {
 				// search wikispecies for scientific names of animals or plants
 				case 'wikispecies' :
 					include __DIR__ . "/connectors/Wikispecies.php";
-					$auto = new \mwAutocompleteExternal\connectors\Wikispecies( $snoopy );
+					$searcher = new \mwAutocompleteExternal\connectors\Wikispecies( $snoopy );
 					break;
 					
 				// search wikipedia for pages in a category
@@ -27,32 +30,34 @@ try {
 					include __DIR__ . "/connectors/WikipediaCategory.php";
 					$category = htmlspecialchars($_GET["category"]);
 					$lang = htmlspecialchars($_GET["lang"]);
-					$auto = new \mwAutocompleteExternal\connectors\WikipediaCategory( $snoopy, $category, $lang );
+					$searcher = new \mwAutocompleteExternal\connectors\WikipediaCategory( $snoopy, $category, $lang );
 					break;
 					
 				// Queries Regensburger Verbundklassifikation (German library reference): browse the tree
 				case 'rvk' :
 					include __DIR__ . "/connectors/RVK.php";
 					$filter = htmlspecialchars($_GET["filter"]);
-					$auto = new \mwAutocompleteExternal\connectors\RVK( $snoopy, $filter );
+					$searcher = new \mwAutocompleteExternal\connectors\RVK( $snoopy, $filter );
 					break;
 					
 				// Queries Regensburger Verbundklassifikation (German library reference): query registry
 				case 'rvkregister' :
 					include __DIR__ . "/connectors/RVKRegister.php";
-					$auto = new \mwAutocompleteExternal\connectors\RVKRegister( $snoopy );
+					$searcher = new \mwAutocompleteExternal\connectors\RVKRegister( $snoopy );
 					break;
 					
 				// Queries Regensburger Verbundklassifikation (German library reference): filter registry, then query
 				case 'rvkfiltered' :
 					include __DIR__ . "/connectors/RVKFiltered.php";
 					$filter = htmlspecialchars($_GET["filter"]);
-					$auto = new \mwAutocompleteExternal\connectors\RVKFiltered( $snoopy, $filter );
+					$searcher = new \mwAutocompleteExternal\connectors\RVKFiltered( $snoopy, $filter );
 					break;
 
 				default:
 					throw new Exception( 'Unknown data source.' );
 		}
+		// instantiate the autocompleter with the searcher object
+		$auto = new Autocompleter( $searcher );
 
 		// get the autocomplete data (as JSON)
 		$query = htmlspecialchars($_GET["search"]);
