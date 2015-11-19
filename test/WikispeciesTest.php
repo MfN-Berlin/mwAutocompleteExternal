@@ -41,6 +41,7 @@ class WikispeciesTest extends PHPUnit_Framework_TestCase {
 	 * Only the last one is processed
 	 */
 	public function testMultiple() {
+		// only the last will be processed
 		$resp = $this->auto->search( 'test;' . $this->query );
 		$this->assertEquals( $this->expected, $resp );
 		// what happens if the string is terminated by a separator?
@@ -48,6 +49,9 @@ class WikispeciesTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->expected, $resp );
 		// what happens if the string starts by a separator?
 		$resp = $this->auto->search( ';' . $this->query );
+		$this->assertEquals( $this->expected, $resp );
+		// what happens if there's a space after the separator?
+		$resp = $this->auto->search( 'test; ' . $this->query );
 		$this->assertEquals( $this->expected, $resp );
 	}
 	
