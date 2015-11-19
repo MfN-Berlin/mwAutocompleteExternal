@@ -39,7 +39,7 @@ $sfgAutocompletionURLs['wikipedia'] = 'http://path-to-my/autocomplete.php?source
 * To retrieve names from several categories, separate them with a pipe, like so: category=cat1|cat2|cat3
 * A maximum of 500 names can be retrieved. This is a limitation of the wikipedia API.
 
-Done. A list of matching page names should appear when you start tiping in the input field.
+Done. A list of matching page names should appear when you start tiping in the input field. For fields with multiple values, these have to be separated by ';'.
 
 ## Other data sources
 RVK: Regensburger Verbundklassifikation (German library reference) 
